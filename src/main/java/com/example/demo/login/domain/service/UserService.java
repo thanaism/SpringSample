@@ -2,7 +2,9 @@ package com.example.demo.login.domain.service;
 
 import com.example.demo.login.domain.model.User;
 import com.example.demo.login.domain.repository.UserDao;
+import com.example.demo.login.domain.repository.jdbc.UserDaoJdbcImpl2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,7 +13,9 @@ import java.util.List;
 public class UserService {
 
     @Autowired
-    UserDao dao;
+//    @Qualifier("UserDaoJdbcImpl2")
+//    UserDao dao;
+    UserDaoJdbcImpl2 dao;
 
     public boolean insert(User user) {
         int rowNumber = dao.insertOne(user);

@@ -5,17 +5,26 @@ import com.example.demo.login.domain.repository.UserDao;
 import com.example.demo.login.domain.repository.jdbc.UserDaoJdbcImpl2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 
+@Transactional
 @Service
 public class UserService {
 
     @Autowired
-//    @Qualifier("UserDaoJdbcImpl2")
-//    UserDao dao;
-    UserDaoJdbcImpl2 dao;
+    @Qualifier("UserDaoJdbcImpl")
+    UserDao dao;
+//    UserDaoJdbcImpl2 dao;
 
     public boolean insert(User user) {
         int rowNumber = dao.insertOne(user);
@@ -60,5 +69,16 @@ public class UserService {
             result = true;
         }
         return result;
+    }
+
+    public void userCsvOut() throws DataAccessException {
+        dao.userCsvOut();
+    }
+
+    public byte[] getFile(String fileName) throws IOException {
+        FileSystem fs = FileSystems.getDefault();
+        Path p = fs.getPath(fileName);
+        byte[] bytes = Files.readAllBytes(p);
+        return bytes;
     }
 }

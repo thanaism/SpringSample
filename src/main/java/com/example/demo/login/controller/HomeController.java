@@ -117,8 +117,8 @@ public class HomeController {
         return getUserList(model);
     }
 
-    @GetMapping("/logout")
-    public String getLogout() {
+    @PostMapping("/logout")
+    public String postLogout() {
         return "redirect:/login";
     }
 

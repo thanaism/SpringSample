@@ -55,6 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/signup").permitAll()
+                .antMatchers("/rest/**").permitAll()
                 .antMatchers("/admin").hasAnyAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated();
         http.formLogin()
@@ -68,6 +69,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutRequestMatcher(new AntPathRequestMatcher("logout"))
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login");
+        RestMatcher csrfMatcher = new RestMatcher("/rest/**");
+        http.csrf().requireCsrfProtectionMatcher(csrfMatcher);
 //        http.csrf().disable();
     }
 
